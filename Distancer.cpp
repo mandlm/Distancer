@@ -20,15 +20,25 @@ void flashStatusLed()
 int main()
 {
 	setupStatusLed();
-	
+
 	LcdShiftReg lcdShiftReg;
 
 	while (true)
 	{
 		flashStatusLed();
 		_delay_ms(400);
-		
+
 		lcdShiftReg.set(1);
+		_delay_ms(100);
+		lcdShiftReg.set(0);
+		_delay_ms(400);
+
+		lcdShiftReg.set(1 << 1);
+		_delay_ms(100);
+		lcdShiftReg.set(0);
+		_delay_ms(400);
+
+		lcdShiftReg.set(1 << 7);
 		_delay_ms(100);
 		lcdShiftReg.set(0);
 		_delay_ms(400);
