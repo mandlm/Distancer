@@ -3,9 +3,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "DeviceLib/ShiftRegister.h"
+#include "LcdShiftReg.h"
 
-void setupStatusLedPin()
+void setupStatusLed()
 {
 	DDRB |= (1 << PB0);
 }
@@ -19,11 +19,18 @@ void flashStatusLed()
 
 int main()
 {
-	setupStatusLedPin();
+	setupStatusLed();
+	
+	LcdShiftReg lcdShiftReg;
 
 	while (true)
 	{
 		flashStatusLed();
+		_delay_ms(400);
+		
+		lcdShiftReg.set(1);
+		_delay_ms(100);
+		lcdShiftReg.set(0);
 		_delay_ms(400);
 	}
 }
