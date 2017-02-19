@@ -1,0 +1,4 @@
+[submodule "DeviceLib"]
+	path = DeviceLib
+	url = ../DeviceLib.git
+	branch = master
