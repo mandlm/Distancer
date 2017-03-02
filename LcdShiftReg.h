@@ -4,13 +4,15 @@
 
 class LcdShiftReg : public ShiftRegister
 {
-	public:
+public:
 	LcdShiftReg();
 
-	private:
-	void setPin(volatile uint8_t *port, uint8_t pin, bool value) const;
+private:
+	void setPin(volatile uint8_t *port, uint8_t pin) const;
+	void clearPin(volatile uint8_t *port, uint8_t pin) const;
 
 	virtual void setSerialPin(bool value) override;
-	virtual void setShiftPin(bool value) override;
-	virtual void setStoragePin(bool value) override;
+
+	virtual void pulseShiftPin() override;
+	virtual void pulseStoragePin() override;
 };

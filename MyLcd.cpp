@@ -1,37 +1,25 @@
 #include "MyLcd.h"
 #include "Hardware.h"
 
-void MyLcd::execute(const Command &cmd, bool RS, double delay)
+void MyLcd::execute(uint8_t data, bool RS)
 {
 	static const uint8_t eMask = 0b00000010;
 	static const uint8_t rsMask = 0b01000000;
-	//static const double pulseLength = 0.5;
 
+	if (RS)
 	{
-		uint8_t output = (cmd.data & 0xf0) >> 2;
-		if (RS)
-		{
-			output |= rsMask;
-		}
-
-		m_lcdShiftReg.set(output | eMask);
-		//delay_us(pulseLength);
-		m_lcdShiftReg.set(output);
+		data |= rsMask;
 	}
 
-	{
-		uint8_t output = (cmd.data & 0x0f) << 2;
-		if (RS)
-		{
-			output |= rsMask;
-		}
+	m_lcdShiftReg.set(data | eMask);
+	m_lcdShiftReg.set(data);
+}
 
-		m_lcdShiftReg.set(output | eMask);
-		//delay_us(pulseLength);
-		m_lcdShiftReg.set(output);
-	}
-
-	delay_ms(delay);
+void MyLcd::execute(const Command &cmd, bool RS, uint16_t delay)
+{
+	execute((cmd.data & 0xf0) >> 2, RS);
+	execute((cmd.data & 0x0f) << 2, RS);
+	delay_us(delay);
 }
 
 

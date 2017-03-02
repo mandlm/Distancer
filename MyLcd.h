@@ -9,5 +9,7 @@ private:
 	LcdShiftReg m_lcdShiftReg;
 	
 private:
-	virtual void execute(const Command &cmd, bool RS, double delay) override;
+	void execute(uint8_t data, bool RS);
+
+	virtual void execute(const Command &cmd, bool RS, uint16_t delay_us) override;
 };

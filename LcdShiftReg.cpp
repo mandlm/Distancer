@@ -7,29 +7,39 @@ LcdShiftReg::LcdShiftReg()
 	DDRA |= (1 << PA0) | (1 << PA1) | (1 << PA2);
 }
 
-void LcdShiftReg::setPin(volatile uint8_t *port, uint8_t pin, bool value) const
+void LcdShiftReg::setPin(volatile uint8_t *port, uint8_t pin) const
 {
-	if (value == true)
-	{
-		*port |= (1 << pin);
-	}
-	else
-	{
-		*port &= ~(1 << pin);
-	}
+	*port |= (1 << pin);
+}
+
+void LcdShiftReg::clearPin(volatile uint8_t *port, uint8_t pin) const
+{
+	*port &= ~(1 << pin);
 }
 
 void LcdShiftReg::setSerialPin(bool value)
 {
-	setPin(&PORTA, PA2, value);
+	if (value == true)
+	{
+		setPin(&PORTA, PA2);		
+	}
+	else
+	{
+		clearPin(&PORTA, PA2);
+	}
 }
 
-void LcdShiftReg::setShiftPin(bool value)
+void LcdShiftReg::pulseShiftPin()
 {
-	setPin(&PORTA, PA0, value);
+	clearPin(&PORTA, PA0);
+	setPin(&PORTA, PA0);
+	clearPin(&PORTA, PA0);
 }
 
-void LcdShiftReg::setStoragePin(bool value)
+void LcdShiftReg::pulseStoragePin()
 {
-	setPin(&PORTA, PA1, value);
+	clearPin(&PORTA, PA1);
+	setPin(&PORTA, PA1);
+	clearPin(&PORTA, PA1);
 }
+
