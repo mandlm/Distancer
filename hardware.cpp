@@ -1,34 +1,17 @@
 #include "hardware.h"
 #include "avr/io.h"
 
-void delay_ms(double delay)
+void delay_us(uint16_t delay)
 {
-	// prescaler: 1024
-	TCCR0B = (1 << CS02) | (1 << CS00);
-	TCNT0 = 0;
+	TCCR1B = (1 << CS10);
+	TCNT1 = 0;
 
-	while (TCNT0 <= delay)
+	while (true)
 	{
-		if (TCNT0 >= 49)
+		if (TCNT1 >= delay)
 		{
-			delay -= 50;
-			TCNT0 = 0;
+			return;
 		}
 	}
 }
 
-void delay_us(double delay)
-{
-	// prescaler: 1
-	TCCR0B = (1 << CS00);
-	TCNT0 = 0;
-
-	while (TCNT0 <= delay)
-	{
-		if (TCNT0 >= 50)
-		{
-			delay -= 50;
-			TCNT0 = 0;
-		}
-	}
-}
